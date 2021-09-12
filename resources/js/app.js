@@ -5,7 +5,7 @@
  */
 
 require('./bootstrap');
-require('admin-lte')
+require('admin-lte');
 window.Vue = require('vue').default;
 //import vform
 import Form from 'vform'
