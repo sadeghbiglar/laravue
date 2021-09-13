@@ -2309,6 +2309,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2324,12 +2332,43 @@ __webpack_require__.r(__webpack_exports__);
       })
     };
   },
+  methods: {
+    getProfilePhoto: function getProfilePhoto() {
+      return "img/profile/" + this.form.photo;
+    },
+    updateInfo: function updateInfo() {
+      var _this = this;
+
+      this.$Progress.start();
+      this.form.put('api/profile').then(function () {
+        _this.$Progress.finish();
+      })["catch"](function () {
+        _this.$Progress.fail();
+      });
+    },
+    updateProfile: function updateProfile(e) {
+      var _this2 = this;
+
+      var file = e.target.files[0];
+      var reader = new FileReader();
+
+      if (file['size'] < 2111775) {
+        reader.onloadend = function (file) {
+          _this2.form.photo = reader.result;
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        Swal.fire('Error-Your File Is Large !', 'Oops.', 'error');
+      }
+    }
+  },
   created: function created() {
-    var _this = this;
+    var _this3 = this;
 
     axios.get('api/profile').then(function (_ref) {
       var data = _ref.data;
-      return _this.form.fill(data);
+      return _this3.form.fill(data);
     });
   },
   mounted: function mounted() {
@@ -63100,7 +63139,17 @@ var render = function() {
       _c("div", { staticClass: "col-md-3" }, [
         _c("div", { staticClass: "card card-primary card-outline" }, [
           _c("div", { staticClass: "card-body box-profile" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "text-center" }, [
+              _c("img", {
+                staticClass: "profile-user-img img-fluid img-circle",
+                attrs: {
+                  src: _vm.getProfilePhoto(),
+                  alt: "User profile picture"
+                }
+              }),
+              _vm._v(" "),
+              _vm._m(0)
+            ]),
             _vm._v(" "),
             _c("h3", { staticClass: "profile-username text-center" }, [
               _vm._v(_vm._s(_vm.form.name))
@@ -63158,6 +63207,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
+                          class: { "is-invalid": _vm.form.errors.has("name") },
                           attrs: {
                             type: "text",
                             id: "inputName",
@@ -63172,7 +63222,15 @@ var render = function() {
                               _vm.$set(_vm.form, "name", $event.target.value)
                             }
                           }
-                        })
+                        }),
+                        _vm._v(" "),
+                        _vm.form.errors.has("name")
+                          ? _c("div", {
+                              domProps: {
+                                innerHTML: _vm._s(_vm.form.errors.get("name"))
+                              }
+                            })
+                          : _vm._e()
                       ])
                     ]),
                     _vm._v(" "),
@@ -63197,6 +63255,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
+                          class: { "is-invalid": _vm.form.errors.has("email") },
                           attrs: {
                             type: "email",
                             id: "inputEmail",
@@ -63211,7 +63270,15 @@ var render = function() {
                               _vm.$set(_vm.form, "email", $event.target.value)
                             }
                           }
-                        })
+                        }),
+                        _vm._v(" "),
+                        _vm.form.errors.has("email")
+                          ? _c("div", {
+                              domProps: {
+                                innerHTML: _vm._s(_vm.form.errors.get("email"))
+                              }
+                            })
+                          : _vm._e()
                       ])
                     ]),
                     _vm._v(" "),
@@ -63275,6 +63342,9 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("password")
+                          },
                           attrs: {
                             id: "inputExperience",
                             placeholder: "password"
@@ -63292,13 +63362,54 @@ var render = function() {
                               )
                             }
                           }
-                        })
+                        }),
+                        _vm._v(" "),
+                        _vm.form.errors.has("password")
+                          ? _c("div", {
+                              domProps: {
+                                innerHTML: _vm._s(
+                                  _vm.form.errors.get("password")
+                                )
+                              }
+                            })
+                          : _vm._e()
                       ])
                     ]),
                     _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group row", attrs: { hidden: "" } },
+                      [
+                        _c("div", { staticClass: "col-sm-10" }, [
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: { type: "file", id: "photo" },
+                            on: { change: _vm.updateProfile }
+                          })
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
                     _vm._m(5),
                     _vm._v(" "),
-                    _vm._m(6)
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("div", { staticClass: "offset-sm-2 col-sm-10" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger",
+                            attrs: { type: "submit" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.updateInfo.apply(null, arguments)
+                              }
+                            }
+                          },
+                          [_vm._v("Submit")]
+                        )
+                      ])
+                    ])
                   ])
                 ]
               )
@@ -63314,11 +63425,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center" }, [
-      _c("img", {
-        staticClass: "profile-user-img img-fluid img-circle",
-        attrs: { src: "/./img/profile/pro.jpg", alt: "User profile picture" }
-      })
+    return _c("p", [
+      _c("label", { attrs: { for: "photo" } }, [_vm._v("change")])
     ])
   },
   function() {
@@ -63473,20 +63581,6 @@ var staticRenderFns = [
             _c("a", { attrs: { href: "#" } }, [_vm._v("terms and conditions")])
           ])
         ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c("div", { staticClass: "offset-sm-2 col-sm-10" }, [
-        _c(
-          "button",
-          { staticClass: "btn btn-danger", attrs: { type: "submit" } },
-          [_vm._v("Submit")]
-        )
       ])
     ])
   }
