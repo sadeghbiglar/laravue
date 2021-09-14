@@ -10,8 +10,14 @@ window.Vue = require('vue').default;
 //import vform
 import Form from 'vform'
 window.Form =Form;
+////
+import Vue from 'vue';
+import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
+import 'leaflet/dist/leaflet.css';
 
-
+Vue.component('l-map', LMap);
+Vue.component('l-tile-layer', LTileLayer);
+Vue.component('l-marker', LMarker);
 //Import moment for filter day a uppercase and ....
 import moment from "moment";
 
@@ -64,7 +70,8 @@ Vue.use(VueRouter)
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/users', component:  require('./components/Users.vue').default },
-    { path: '/profile', component:  require('./components/Profile.vue').default }
+    { path: '/profile', component:  require('./components/Profile.vue').default },
+    { path: '/home', component:  require('./components/Home.vue').default },
 ]
 
 
