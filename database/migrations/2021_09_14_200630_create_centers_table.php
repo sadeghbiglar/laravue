@@ -19,7 +19,7 @@ class CreateCentersTable extends Migration
             $table->string('population');
             $table->string('lat');
             $table->string('lng');
-            $table->text('pdata');
+            $table->text('pdata')->nullable();
             $table->integer('d65up');
             $table->integer('d6065');
             $table->timestamps();
