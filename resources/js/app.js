@@ -72,6 +72,7 @@ let routes = [
     { path: '/users', component:  require('./components/Users.vue').default },
     { path: '/profile', component:  require('./components/Profile.vue').default },
     { path: '/home', component:  require('./components/Home.vue').default },
+    { path: '/centers', component:  require('./components/Centers.vue').default },
 ]
 
 
